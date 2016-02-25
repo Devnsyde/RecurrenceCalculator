@@ -63,9 +63,9 @@ namespace RecurrenceCalculator
             {
                 yield return date.Add(recurrence.StartDate.TimeOfDay);
 
-                date = IsWeekdaySet(recurrence)
-                    ? (date.AddDays((date.DayOfWeek == DayOfWeek.Friday) ? 3 : 1))
-                    : date.AddDays(recurrence.Interval);
+                 date = IsWeekdaySet(recurrence)
+                    ? date.AddDays(recurrence.Interval)
+                    : (date.AddDays((date.DayOfWeek == DayOfWeek.Friday) ? 3 : 1));
             }
         }
 
