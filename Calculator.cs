@@ -63,9 +63,43 @@ namespace RecurrenceCalculator
             {
                 yield return date.Add(recurrence.StartDate.TimeOfDay);
 
-                date = IsWeekdaySet(recurrence)
-                    ? (date.AddDays((date.DayOfWeek == DayOfWeek.Friday) ? 2 + recurrence.Interval : recurrence.Interval))
-                    : date.AddDays(recurrence.Interval);
+                if (IsWeekdaySet(recurrence))
+                {
+                    
+
+                    if (date.DayOfWeek == DayOfWeek.Friday)
+                    {
+                        date = date.AddDays(2 + recurrence.Interval);
+                    }
+                    else if(date.DayOfWeek == DayOfWeek.Saturday)
+                    {
+                        date = date.AddDays(1 + recurrence.Interval);
+                    }
+                    else if (date.DayOfWeek == DayOfWeek.Sunday)
+                    {
+                        date = date.AddDays(recurrence.Interval);
+                    }
+                    else
+                    {
+                        date = date.AddDays(recurrence.Interval);
+                        //re-evaluate the new date to make sure it does not land on a weekend, if so skip over.
+                        if (date.DayOfWeek == DayOfWeek.Saturday)
+                        {
+                            date = date.AddDays(2);
+                        }
+                        else if (date.DayOfWeek == DayOfWeek.Sunday)
+                        {
+                            date = date.AddDays(1);
+                        }
+                    }
+                }
+                else
+                {
+                    date = date.AddDays(recurrence.Interval);
+                }
+                //date = IsWeekdaySet(recurrence)
+                //    ? (date.AddDays((date.DayOfWeek == DayOfWeek.Friday) ? 2 + recurrence.Interval : recurrence.Interval))
+                //    : date.AddDays(recurrence.Interval);
             }
         }
 
